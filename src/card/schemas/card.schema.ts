@@ -33,6 +33,10 @@ export enum CardAttribute {
     NONE = "",
 }
 
+export function parseArrayValues(enumType: any, value: string) {
+    return value.split('/').map(v => enumType[v.trim()]);
+}
+
 @Schema({ timestamps: true })
 export class Card {
     @Prop()
