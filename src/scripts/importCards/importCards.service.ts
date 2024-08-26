@@ -10,10 +10,31 @@ export class ImportCardsService {
     constructor(@InjectModel(Card.name) private cardModel: mongoose.Model<Card>) { }
 
     async insertFromFile(filePath: string): Promise<void> {
-        const fullPath = path.resolve(filePath);
-        const data = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
+        try {
+            const fullPath = path.resolve(filePath);
 
-        if (Array.isArray(data)) {
+            if (!fs.existsSync(fullPath)) {
+                console.error('Error: File not found at', fullPath);
+                console.log('0 cards inserted.')
+                return;
+            }
+
+            let data: any;
+            try {
+                const fileContent = fs.readFileSync(fullPath, 'utf-8');
+                data = JSON.parse(fileContent);
+            } catch (error) {
+                console.error('Error: Unable to read or parse JSON file.', error.message);
+                console.log('0 cards inserted.')
+                return;
+            }
+
+            if (!Array.isArray(data)) {
+                console.error('Error: Expected an array of cards in JSON file.');
+                console.log('0 cards inserted.')
+                return;
+            }
+
             const uniqueData = Array.from(new Map(data.map(card => [card.card_id, card])).values());
 
             const existingCards = await this.cardModel.find(
@@ -46,8 +67,8 @@ export class ImportCardsService {
             } else {
                 console.log('No new cards to insert.');
             }
-        } else {
-            console.error('Invalid data format. Expected an array of cards.');
+        } catch (error) {
+            console.error('Unexpected error:', error.message);
         }
     }
 }
