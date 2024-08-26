@@ -14,9 +14,20 @@ export class ScriptsService {
         const data = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
 
         if (Array.isArray(data)) {
-            const cards = data.map(cardData => {
-                return new this.cardModel({
-                    card_id: cardData._id,
+            const uniqueData = Array.from(new Map(data.map(card => [card.card_id, card])).values());
+
+            const existingCards = await this.cardModel.find(
+                { card_id: { $in: uniqueData.map(card => card.card_id) } },
+                { card_id: 1 }
+            ).lean();
+
+            const existingCardIds = new Set(existingCards.map(card => card.card_id));
+
+            const newCards = uniqueData.filter(card => !existingCardIds.has(card.card_id));
+
+            if (newCards.length > 0) {
+                await this.cardModel.insertMany(newCards.map(cardData => ({
+                    card_id: cardData.card_id,
                     name: cardData.name,
                     rarity: cardData.rarity,
                     type: cardData.type,
@@ -29,11 +40,12 @@ export class ScriptsService {
                     image_url: cardData.image_url,
                     alternate_art: cardData.alternate_art,
                     series_id: cardData.series_id,
-                });
-            });
+                })));
 
-            await this.cardModel.insertMany(cards);
-            console.log(`${cards.length} cards inserted successfully.`);
+                console.log(`${newCards.length} cards inserted successfully.`);
+            } else {
+                console.log('No new cards to insert.');
+            }
         } else {
             console.error('Invalid data format. Expected an array of cards.');
         }

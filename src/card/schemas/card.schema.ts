@@ -39,7 +39,7 @@ export function parseArrayValues(enumType: any, value: string) {
 
 @Schema({ timestamps: true })
 export class Card {
-    @Prop()
+    @Prop({ unique: true })
     card_id: string;
 
     @Prop()
