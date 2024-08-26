@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Card } from '../card/schemas/card.schema';
+import { Card } from '../../card/schemas/card.schema';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mongoose from 'mongoose';
 
 @Injectable()
-export class ScriptsService {
+export class ImportCardsService {
     constructor(@InjectModel(Card.name) private cardModel: mongoose.Model<Card>) { }
 
     async insertFromFile(filePath: string): Promise<void> {
