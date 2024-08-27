@@ -13,8 +13,9 @@ async function bootstrap() {
     }));
 
     const config = new DocumentBuilder()
-        .setTitle('OnePiece TCG API Documentation')
-        .setVersion('1.0')
+        .setTitle('OnePiece TCG REST API with NestJS')
+        .setDescription('In this project we made use of the following concepts: OOP, Jest, e2e, JWT, Middlewares, internal scripts, Swagger documentation and MongoDB')
+        .setVersion('0.1')
         .addTag('Card', 'API endpoints for managing One Piece TCG cards')
         .build();
 
