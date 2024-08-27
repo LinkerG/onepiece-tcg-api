@@ -45,6 +45,31 @@ export class CardService {
         return cards;
     }
 
+    async findById(id: string): Promise<Card> {
+        const card = await this.cardModel.findOne({ card_id: id }).exec();
+
+        if (!card) throw new NotFoundException(`Card with card_id ${id} not found.`);
+        return card;
+    }
+
+    async addAlternateArt(card_id: string): Promise<Card> {
+        const card = await this.cardModel.findOne({ card_id }).exec();
+
+        if (!card) throw new NotFoundException(`Card with card_id ${card_id} not found.`);
+
+        card.alternate_art++;
+        return card.save();
+    }
+
+    async removeAlternateArt(card_id: string): Promise<Card> {
+        const card = await this.cardModel.findOne({ card_id }).exec();
+
+        if (!card) throw new NotFoundException(`Card with card_id ${card_id} not found.`);
+
+        card.alternate_art--;
+        return card.save();
+    }
+
     async create(card: Card): Promise<Card> {
         const existingCard = await this.cardModel.findOne({ card_id: card.card_id });
 
