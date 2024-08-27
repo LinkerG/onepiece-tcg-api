@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { CardModule } from './card/card.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ScriptsModule } from './scripts/scripts.module';
+import { ScriptsModule } from './script/scripts.module';
 import { RemoveHeaderMiddleware } from './middleware/remove-header.middleware';
 
 @Module({

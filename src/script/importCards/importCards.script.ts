@@ -7,7 +7,7 @@ async function bootstrap() {
     const scriptsService = app.get(ImportCardsService);
 
     // Place JSON file next to this file to import cards
-    await scriptsService.insertFromFile('src/scripts/importCards/cards.json');
+    await scriptsService.insertFromFile('src/script/importCards/cards.json');
 
     await app.close();
 }
