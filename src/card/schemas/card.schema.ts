@@ -55,10 +55,10 @@ export class Card {
     attribute: CardAttribute[];
 
     @Prop()
-    power: string;
+    power: number;
 
     @Prop()
-    counter: string;
+    counter: number;
 
     @Prop()
     color: CardColor[];
@@ -70,13 +70,7 @@ export class Card {
     effect: string;
 
     @Prop()
-    image_url: string;
-
-    @Prop()
-    alternate_art: boolean;
-
-    @Prop()
-    series_id: number;
+    alternate_art: number;
 }
 
 export const CardSchema = SchemaFactory.createForClass(Card);

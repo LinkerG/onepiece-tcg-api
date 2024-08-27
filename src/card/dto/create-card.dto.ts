@@ -12,9 +12,9 @@ export class CreateCardDto {
 
     attribute: CardAttribute[];
 
-    power: string;
+    power: number;
 
-    counter: string;
+    counter: number;
 
     color: CardColor[];
 
@@ -22,9 +22,5 @@ export class CreateCardDto {
 
     effect: string;
 
-    image_url: string;
-
-    alternate_art: boolean;
-
-    series_id: number;
+    alternate_art: number;
 }
