@@ -17,6 +17,7 @@ async function bootstrap() {
         .setDescription('In this project we made use of the following concepts: OOP, Jest, e2e, JWT, Middlewares, internal scripts, Swagger documentation and MongoDB')
         .setVersion('0.1')
         .addTag('Card', 'API endpoints for managing One Piece TCG cards')
+        .addBearerAuth()
         .build();
 
     const document = SwaggerModule.createDocument(app, config);

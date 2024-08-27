@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CardService } from './card.service';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Card } from './schemas/card.schema';
 import { FindAllCardsQuery } from './dto/find-card.dto';
 import { CreateCardDto } from './dto/create-card.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('card')
 @ApiTags('Card')
@@ -24,6 +25,8 @@ export class CardController {
     }
 
     @Patch(":card_id/addAlteredArt")
+    @UseGuards(AuthGuard("jwt"))
+    @ApiBearerAuth()
     @ApiParam({ name: 'card_id', description: 'ID of the card', type: String })
     @ApiOperation({ description: 'Increases alternate art counter for card' })
     async addAlternateArt(@Param('card_id') card_id: string): Promise<Card> {
@@ -31,6 +34,8 @@ export class CardController {
     }
 
     @Patch(":card_id/removeAlteredArt")
+    @UseGuards(AuthGuard("jwt"))
+    @ApiBearerAuth()
     @ApiParam({ name: 'card_id', description: 'ID of the card', type: String })
     @ApiOperation({ description: 'Decreases alternate art counter for card' })
     async removeAlternateArt(@Param('card_id') card_id: string): Promise<Card> {
@@ -38,6 +43,8 @@ export class CardController {
     }
 
     @Post()
+    @UseGuards(AuthGuard("jwt"))
+    @ApiBearerAuth()
     @ApiOperation({ description: 'Create a new card' })
     async create(@Body() card: CreateCardDto): Promise<Card> {
         return this.cardService.create(card);
