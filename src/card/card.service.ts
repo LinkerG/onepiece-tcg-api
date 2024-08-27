@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model as MongooseModel } from 'mongoose';
 import { Card } from './schemas/card.schema';
@@ -46,7 +46,11 @@ export class CardService {
     }
 
     async create(card: Card): Promise<Card> {
-        const newCard = new this.cardModel(card);
-        return await newCard.save();
+        const existingCard = await this.cardModel.findOne({ card_id: card.card_id });
+
+        if (existingCard) throw new BadRequestException(`A card with card_id ${card.card_id} already exists. ${existingCard.name}. If you want to add an altered art, please use /card/:card_id/addAlteredArt endpoint.`);
+
+        const createdCard = new this.cardModel(card);
+        return createdCard.save();
     }
 }
