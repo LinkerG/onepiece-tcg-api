@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScriptsModule } from './script/scripts.module';
 import { RemoveHeaderMiddleware } from './middleware/remove-header.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { RemoveHeaderMiddleware } from './middleware/remove-header.middleware';
         MongooseModule.forRoot(process.env.MONGO_URI),
         CardModule,
         ScriptsModule,
+        AuthModule,
     ],
 })
 export class AppModule implements NestModule {
