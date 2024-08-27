@@ -11,14 +11,14 @@ export class CardService {
         private cardModel: MongooseModel<Card>,
     ) { }
 
-    async findAll(filters: FindAllCardsQuery): Promise<Card[]> {
+    async find(filters: FindAllCardsQuery): Promise<Card[]> {
         const query: any = {}; // Utilizamos `any` aquí para construir la consulta dinámica
 
         if (filters.card_id) {
-            query.card_id = filters.card_id;
+            query.card_id = { $regex: filters.card_id, $options: 'i' };
         }
         if (filters.name) {
-            query.name = filters.name;
+            query.name = { $regex: filters.name, $options: 'i' };
         }
         if (filters.rarity) {
             query.rarity = filters.rarity;
@@ -43,5 +43,10 @@ export class CardService {
         }
 
         return cards;
+    }
+
+    async create(card: Card): Promise<Card> {
+        const newCard = new this.cardModel(card);
+        return await newCard.save();
     }
 }
