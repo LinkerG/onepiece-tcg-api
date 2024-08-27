@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsArray, IsEnum, IsString, IsInt, Min, Max } from 'class-validator';
+import { IsNotEmpty, IsArray, IsEnum, IsString, IsInt, Min } from 'class-validator';
 import { Rarity, CardType, CardColor, CardAttribute } from '../schemas/card.schema';
 import { ApiProperty } from '@nestjs/swagger';
 

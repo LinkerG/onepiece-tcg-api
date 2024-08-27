@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CardService } from './card.service';
-import { ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Card, CardAttribute, CardColor, CardType, Rarity } from './schemas/card.schema';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Card } from './schemas/card.schema';
 import { FindAllCardsQuery } from './dto/find-card.dto';
 import { CreateCardDto } from './dto/create-card.dto';
 
