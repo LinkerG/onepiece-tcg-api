@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { CardModule } from './card/card.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScriptsModule } from './scripts/scripts.module';
+import { RemoveHeaderMiddleware } from './middleware/remove-header.middleware';
 
 @Module({
     imports: [
@@ -15,4 +16,10 @@ import { ScriptsModule } from './scripts/scripts.module';
         ScriptsModule,
     ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(RemoveHeaderMiddleware)
+            .forRoutes('*');
+    }
+}
