@@ -6,12 +6,14 @@ import { hash, compare as comparePassword } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { CollectionService } from 'src/collection/collection.service';
 @Injectable()
 export class AuthService {
     constructor(
         @InjectModel(User.name)
         private userModel: MongooseModel<User>,
         private jswService: JwtService,
+        private collectionService: CollectionService,
     ) { }
 
     async signUp(signupDto: SignupDto): Promise<{ token: string }> {
@@ -26,6 +28,8 @@ export class AuthService {
         });
 
         const token = this.jswService.sign({ id: user._id });
+
+        this.collectionService.createEmptyCollection(user._id);
 
         return { token };
     }
