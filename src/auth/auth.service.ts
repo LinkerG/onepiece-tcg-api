@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from './schemas/user.schema';
+import { Role, User } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model as MongooseModel } from 'mongoose';
 import { hash, compare as comparePassword } from 'bcryptjs';
@@ -25,6 +25,7 @@ export class AuthService {
             name: name,
             email: email,
             password: hashedPassword,
+            role: Role.USER,
         });
 
         const token = this.jswService.sign({ id: user._id });

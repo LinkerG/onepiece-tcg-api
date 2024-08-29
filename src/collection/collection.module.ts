@@ -12,7 +12,9 @@ import { Collection, CollectionSchema } from './schemas/collection.schema';
             ttl: 5000, // milliseconds
             max: 100,
         }),
-        MongooseModule.forFeature([{ name: Collection.name, schema: CollectionSchema }]),
+        MongooseModule.forFeature([
+            { name: Collection.name, schema: CollectionSchema },
+        ]),
         forwardRef(() => AuthModule),
     ],
     controllers: [CollectionController],
