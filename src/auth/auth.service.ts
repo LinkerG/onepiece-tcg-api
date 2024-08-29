@@ -23,11 +23,11 @@ export class AuthService {
             name: name,
             email: email,
             password: hashedPassword,
-        })
+        });
 
-        const token = this.jswService.sign({ id: user._id })
+        const token = this.jswService.sign({ id: user._id });
 
-        return { token }
+        return { token };
     }
 
     async login(loginDto: LoginDto): Promise<{ token: string }> {
@@ -39,10 +39,11 @@ export class AuthService {
 
         const passwordMatches = await comparePassword(password, user.password);
 
-        if (!passwordMatches) throw new UnauthorizedException('Invalid credentials');
+        if (!passwordMatches)
+            throw new UnauthorizedException('Invalid credentials');
 
-        const token = this.jswService.sign({ id: user._id })
+        const token = this.jswService.sign({ id: user._id });
 
-        return { token }
+        return { token };
     }
 }

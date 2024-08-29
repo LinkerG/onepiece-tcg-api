@@ -1,11 +1,11 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ timestamps: true })
 export class User {
     @Prop()
     name: string;
 
-    @Prop({ unique: [true, "Email already in use"] })
+    @Prop({ unique: [true, 'Email already in use'] })
     email: string;
 
     @Prop()

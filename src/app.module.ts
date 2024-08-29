@@ -12,7 +12,11 @@ import { AuthModule } from './auth/auth.module';
             isGlobal: true,
             envFilePath: '.env',
         }),
-        MongooseModule.forRoot(process.env.NODE_ENV === "test" ? process.env.TEST_URI : process.env.MONGO_URI),
+        MongooseModule.forRoot(
+            process.env.NODE_ENV === 'test'
+                ? process.env.TEST_URI
+                : process.env.MONGO_URI,
+        ),
         CardModule,
         ScriptsModule,
         AuthModule,
@@ -20,8 +24,6 @@ import { AuthModule } from './auth/auth.module';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer
-            .apply(RemoveHeaderMiddleware)
-            .forRoutes('*');
+        consumer.apply(RemoveHeaderMiddleware).forRoutes('*');
     }
 }

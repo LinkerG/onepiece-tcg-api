@@ -2,7 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CardController } from './card.controller';
 import { CardService } from './card.service';
 import { CreateCardDto } from './dto/create-card.dto';
-import { Card, CardAttribute, CardColor, CardType, Rarity } from './schemas/card.schema';
+import {
+    Card,
+    CardAttribute,
+    CardColor,
+    CardType,
+    Rarity,
+} from './schemas/card.schema';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -27,7 +33,7 @@ describe('CardController', () => {
         power: 500,
         counter: 0,
         color: [CardColor.RED],
-        card_type: ["Straw Hat Crew"],
+        card_type: ['Straw Hat Crew'],
         effect: 'Test Effect',
         alternate_art: 0,
     };
@@ -56,7 +62,10 @@ describe('CardController', () => {
 
     describe('findAll', () => {
         it('should return an array of cards', async () => {
-            const mockCards: Card[] = [{ card_id: 'card1' }, { card_id: 'card2' }] as Card[];
+            const mockCards: Card[] = [
+                { card_id: 'card1' },
+                { card_id: 'card2' },
+            ] as Card[];
             service.find.mockResolvedValue(mockCards);
 
             const result = await controller.findAll({});
@@ -78,7 +87,9 @@ describe('CardController', () => {
         it('should throw NotFoundException if card is not found', async () => {
             service.findById.mockRejectedValue(new NotFoundException());
 
-            await expect(controller.findById('card1')).rejects.toThrow(NotFoundException);
+            await expect(controller.findById('card1')).rejects.toThrow(
+                NotFoundException,
+            );
         });
     });
 
@@ -106,7 +117,6 @@ describe('CardController', () => {
 
     describe('create', () => {
         it('should create a new card and return it', async () => {
-
             const mockCard = { ...mockCardDto } as Card;
             service.create.mockResolvedValue(mockCard);
 
@@ -118,7 +128,9 @@ describe('CardController', () => {
         it('should throw BadRequestException if card already exists', async () => {
             service.create.mockRejectedValue(new BadRequestException());
 
-            await expect(controller.create(mockCardDto)).rejects.toThrow(BadRequestException);
+            await expect(controller.create(mockCardDto)).rejects.toThrow(
+                BadRequestException,
+            );
         });
     });
 });

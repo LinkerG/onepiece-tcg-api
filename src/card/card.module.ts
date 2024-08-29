@@ -9,12 +9,10 @@ import { CacheModule } from '@nestjs/cache-manager';
 @Module({
     imports: [
         CacheModule.register({
-            ttl: 5000, // seconds
+            ttl: 5000, // milliseconds
             max: 100,
         }),
-        MongooseModule.forFeature(
-            [{ name: Card.name, schema: CardSchema }]
-        ),
+        MongooseModule.forFeature([{ name: Card.name, schema: CardSchema }]),
         AuthModule,
     ],
     controllers: [CardController],

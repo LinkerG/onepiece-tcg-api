@@ -6,15 +6,19 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    app.useGlobalPipes(new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
-    }));
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+        }),
+    );
 
     const config = new DocumentBuilder()
         .setTitle('OnePiece TCG REST API with NestJS')
-        .setDescription('In this project we made use of the following concepts: OOP, Jest, e2e, JWT, Middlewares, internal scripts, Swagger documentation and MongoDB')
+        .setDescription(
+            'In this project we made use of the following concepts: OOP, Jest, e2e, JWT, Middlewares, internal scripts, Swagger documentation and MongoDB',
+        )
         .setVersion('0.1')
         .addTag('Card', 'API endpoints for managing One Piece TCG cards')
         .addBearerAuth()

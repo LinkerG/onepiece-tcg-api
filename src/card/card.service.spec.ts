@@ -69,13 +69,19 @@ describe('CardService', () => {
                 exec: jest.fn().mockResolvedValueOnce(null),
             });
 
-            await expect(service.findById('card1')).rejects.toThrow(NotFoundException);
+            await expect(service.findById('card1')).rejects.toThrow(
+                NotFoundException,
+            );
         });
     });
 
     describe('addAlternateArt', () => {
         it('should increment alternate_art and save the card', async () => {
-            const mockCard = { card_id: 'card1', alternate_art: 1, save: jest.fn().mockResolvedValueOnce(true) };
+            const mockCard = {
+                card_id: 'card1',
+                alternate_art: 1,
+                save: jest.fn().mockResolvedValueOnce(true),
+            };
             model.findOne.mockReturnValueOnce({
                 exec: jest.fn().mockResolvedValueOnce(mockCard),
             });
@@ -91,13 +97,19 @@ describe('CardService', () => {
                 exec: jest.fn().mockResolvedValueOnce(null),
             });
 
-            await expect(service.addAlternateArt('card1')).rejects.toThrow(NotFoundException);
+            await expect(service.addAlternateArt('card1')).rejects.toThrow(
+                NotFoundException,
+            );
         });
     });
 
     describe('removeAlternateArt', () => {
         it('should decrement alternate_art and save the card', async () => {
-            const mockCard = { card_id: 'card1', alternate_art: 2, save: jest.fn().mockResolvedValueOnce(true) };
+            const mockCard = {
+                card_id: 'card1',
+                alternate_art: 2,
+                save: jest.fn().mockResolvedValueOnce(true),
+            };
             model.findOne.mockReturnValueOnce({
                 exec: jest.fn().mockResolvedValueOnce(mockCard),
             });
@@ -113,7 +125,9 @@ describe('CardService', () => {
                 exec: jest.fn().mockResolvedValueOnce(null),
             });
 
-            await expect(service.removeAlternateArt('card1')).rejects.toThrow(NotFoundException);
+            await expect(service.removeAlternateArt('card1')).rejects.toThrow(
+                NotFoundException,
+            );
         });
     });
 
@@ -122,8 +136,9 @@ describe('CardService', () => {
             const mockCard = { card_id: 'card1' } as Card;
             model.findOne.mockResolvedValueOnce(Promise.resolve(mockCard));
 
-            await expect(service.create(mockCard)).rejects.toThrow(BadRequestException);
+            await expect(service.create(mockCard)).rejects.toThrow(
+                BadRequestException,
+            );
         });
     });
-
 });

@@ -1,40 +1,40 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export enum Rarity {
-    COMMON = "C",
-    UNCOMMON = "UC",
-    RARE = "R",
-    SUPER_RARE = "SR",
-    LEADER = "L",
+    COMMON = 'C',
+    UNCOMMON = 'UC',
+    RARE = 'R',
+    SUPER_RARE = 'SR',
+    LEADER = 'L',
 }
 
 export enum CardType {
-    CHARACTER = "CHARACTER",
-    LEADER = "LEADER",
-    EVENT = "EVENT",
-    STAGE = "STAGE",
+    CHARACTER = 'CHARACTER',
+    LEADER = 'LEADER',
+    EVENT = 'EVENT',
+    STAGE = 'STAGE',
 }
 
 export enum CardColor {
-    RED = "Red",
-    GREEN = "Green",
-    BLUE = "Blue",
-    YELLOW = "Yellow",
-    BLACK = "Black",
-    PURPLE = "Purple",
+    RED = 'Red',
+    GREEN = 'Green',
+    BLUE = 'Blue',
+    YELLOW = 'Yellow',
+    BLACK = 'Black',
+    PURPLE = 'Purple',
 }
 
 export enum CardAttribute {
-    SLASH = "Slash",
-    RANGED = "Ranged",
-    STRIKE = "Strike",
-    SPECIAL = "Special",
-    WISDOM = "Wisdom",
-    NONE = "",
+    SLASH = 'Slash',
+    RANGED = 'Ranged',
+    STRIKE = 'Strike',
+    SPECIAL = 'Special',
+    WISDOM = 'Wisdom',
+    NONE = '',
 }
 
 export function parseArrayValues(enumType: any, value: string) {
-    return value.split('/').map(v => enumType[v.trim()]);
+    return value.split('/').map((v) => enumType[v.trim()]);
 }
 
 @Schema({ timestamps: true })

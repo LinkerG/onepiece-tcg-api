@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model as MongooseModel } from 'mongoose';
 import { Card } from './schemas/card.schema';
@@ -39,7 +43,7 @@ export class CardService {
         const cards = await this.cardModel.find(query);
 
         if (!cards || cards.length === 0) {
-            throw new NotFoundException("No cards found");
+            throw new NotFoundException('No cards found');
         }
 
         return cards;
@@ -48,14 +52,18 @@ export class CardService {
     async findById(id: string): Promise<Card> {
         const card = await this.cardModel.findOne({ card_id: id }).exec();
 
-        if (!card) throw new NotFoundException(`Card with card_id ${id} not found.`);
+        if (!card)
+            throw new NotFoundException(`Card with card_id ${id} not found.`);
         return card;
     }
 
     async addAlternateArt(card_id: string): Promise<Card> {
         const card = await this.cardModel.findOne({ card_id }).exec();
 
-        if (!card) throw new NotFoundException(`Card with card_id ${card_id} not found.`);
+        if (!card)
+            throw new NotFoundException(
+                `Card with card_id ${card_id} not found.`,
+            );
 
         card.alternate_art++;
         return card.save();
@@ -64,16 +72,24 @@ export class CardService {
     async removeAlternateArt(card_id: string): Promise<Card> {
         const card = await this.cardModel.findOne({ card_id }).exec();
 
-        if (!card) throw new NotFoundException(`Card with card_id ${card_id} not found.`);
+        if (!card)
+            throw new NotFoundException(
+                `Card with card_id ${card_id} not found.`,
+            );
 
         card.alternate_art--;
         return card.save();
     }
 
     async create(card: Card): Promise<Card> {
-        const existingCard = await this.cardModel.findOne({ card_id: card.card_id });
+        const existingCard = await this.cardModel.findOne({
+            card_id: card.card_id,
+        });
 
-        if (existingCard) throw new BadRequestException(`A card with card_id ${card.card_id} already exists. ${existingCard.name}. If you want to add an altered art, please use /card/:card_id/addAlteredArt endpoint.`);
+        if (existingCard)
+            throw new BadRequestException(
+                `A card with card_id ${card.card_id} already exists. ${existingCard.name}. If you want to add an altered art, please use /card/:card_id/addAlteredArt endpoint.`,
+            );
 
         const createdCard = new this.cardModel(card);
         return createdCard.save();

@@ -12,16 +12,10 @@ import { ImportCardsService } from './importCards/importCards.service';
             envFilePath: '.env',
         }),
         MongooseModule.forRoot(process.env.MONGO_URI),
-        MongooseModule.forFeature(
-            [{ name: Card.name, schema: CardSchema }]
-        ),
+        MongooseModule.forFeature([{ name: Card.name, schema: CardSchema }]),
         CardModule,
     ],
-    providers: [
-        ImportCardsService,
-    ],
-    exports: [
-        ImportCardsService,
-    ],
+    providers: [ImportCardsService],
+    exports: [ImportCardsService],
 })
 export class ScriptsModule { }

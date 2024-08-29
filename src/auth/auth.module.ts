@@ -16,13 +16,13 @@ import { JwtStrategy } from './jwt.strategy';
             useFactory: (config: ConfigService) => {
                 return {
                     secret: config.get<string>('JWT_SECRET'),
-                    signOptions: { expiresIn: config.get<string | number>('JWT_EXPIRES') },
+                    signOptions: {
+                        expiresIn: config.get<string | number>('JWT_EXPIRES'),
+                    },
                 };
-            }
+            },
         }),
-        MongooseModule.forFeature([
-            { name: User.name, schema: UserSchema },
-        ]),
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ],
     controllers: [AuthController],
     providers: [AuthService, JwtStrategy],

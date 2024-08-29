@@ -4,7 +4,12 @@ import * as request from 'supertest';
 import mongoose, { mongo } from 'mongoose';
 import { AppModule } from './../src/app.module';
 import { CreateCardDto } from '../src/card/dto/create-card.dto';
-import { CardAttribute, CardColor, CardType, Rarity } from '../src/card/schemas/card.schema';
+import {
+    CardAttribute,
+    CardColor,
+    CardType,
+    Rarity,
+} from '../src/card/schemas/card.schema';
 
 // Load environment variables from .env file
 import * as dotenv from 'dotenv';
@@ -42,7 +47,7 @@ describe('Book & Auth Controller (e2e)', () => {
         power: 500,
         counter: 0,
         color: [CardColor.RED],
-        card_type: ["Straw Hat Crew"],
+        card_type: ['Straw Hat Crew'],
         effect: 'Test Effect',
         alternate_art: 0,
     };

@@ -1,5 +1,10 @@
 import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Rarity, CardType, CardColor, CardAttribute } from '../schemas/card.schema';
+import {
+    Rarity,
+    CardType,
+    CardColor,
+    CardAttribute,
+} from '../schemas/card.schema';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class FindAllCardsQuery {
@@ -8,7 +13,7 @@ export class FindAllCardsQuery {
         examples: {
             default: { summary: 'No filter', value: '' },
             example: { summary: 'Card ID example', value: 'EB01-001' },
-        }
+        },
     })
     @IsOptional()
     @IsString()
@@ -18,8 +23,8 @@ export class FindAllCardsQuery {
         description: 'Name of the card',
         examples: {
             default: { summary: 'No filter', value: '' },
-            example: { summary: 'Card name example', value: 'Kouzuki Oden' }
-        }
+            example: { summary: 'Card name example', value: 'Kouzuki Oden' },
+        },
     })
     @IsOptional()
     @IsString()
@@ -30,8 +35,8 @@ export class FindAllCardsQuery {
         description: 'Rarity of the card',
         examples: {
             default: { summary: 'No filter', value: '' },
-            example: { summary: 'Rarity example', value: Rarity.LEADER }
-        }
+            example: { summary: 'Rarity example', value: Rarity.LEADER },
+        },
     })
     @IsOptional()
     @IsEnum(Rarity)
@@ -42,8 +47,8 @@ export class FindAllCardsQuery {
         description: 'Type of the card',
         examples: {
             default: { summary: 'No filter', value: '' },
-            example: { summary: 'Card type example', value: CardType.LEADER }
-        }
+            example: { summary: 'Card type example', value: CardType.LEADER },
+        },
     })
     @IsOptional()
     @IsEnum(CardType)
@@ -55,8 +60,11 @@ export class FindAllCardsQuery {
         description: 'Attributes of the card',
         examples: {
             default: { summary: 'No filter', value: [] },
-            example: { summary: 'Card attributes example', value: [CardAttribute.SLASH] }
-        }
+            example: {
+                summary: 'Card attributes example',
+                value: [CardAttribute.SLASH],
+            },
+        },
     })
     @IsOptional()
     @IsArray()
@@ -69,8 +77,11 @@ export class FindAllCardsQuery {
         description: 'Colors of the card',
         examples: {
             default: { summary: 'No filter', value: [] },
-            example: { summary: 'Card colors example', value: [CardColor.RED, CardColor.GREEN] }
-        }
+            example: {
+                summary: 'Card colors example',
+                value: [CardColor.RED, CardColor.GREEN],
+            },
+        },
     })
     @IsOptional()
     @IsArray()
@@ -82,8 +93,11 @@ export class FindAllCardsQuery {
         description: 'Types of the card',
         examples: {
             default: { summary: 'No filter', value: [] },
-            example: { summary: 'Card types example', value: ['Land of Wano', 'Kozuki Clan'] }
-        }
+            example: {
+                summary: 'Card types example',
+                value: ['Land of Wano', 'Kozuki Clan'],
+            },
+        },
     })
     @IsOptional()
     @IsArray()
