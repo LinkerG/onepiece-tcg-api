@@ -1,8 +1,8 @@
 {
-    "name": "aprendiendo-nest-js",
-    "version": "0.0.1",
-    "description": "",
-    "author": "",
+    "name": "onepiece-tcg-api",
+    "version": "1.0.0",
+    "description": "NESTJS One Piece-TCG RESTFUL API",
+    "author": "Iker González Tirado",
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
