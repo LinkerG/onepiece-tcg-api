@@ -22,6 +22,7 @@ async function bootstrap() {
         .setVersion('0.1')
         .addTag('Card', 'API endpoints for managing One Piece TCG cards')
         .addTag('Collection', 'API endpoints for managing user collection')
+        .addTag('Deck', 'API endpoints for managing card decks from users')
         .addBearerAuth()
         .build();
 
