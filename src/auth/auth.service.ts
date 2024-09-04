@@ -16,7 +16,7 @@ export class AuthService {
         private collectionService: CollectionService,
     ) { }
 
-    async signUp(signupDto: SignupDto): Promise<{ token: string }> {
+    async signUp(signupDto: SignupDto): Promise<{ token: string, user: User }> {
         const { name, email, password } = signupDto;
 
         const hashedPassword = await hash(password, 10);
@@ -32,10 +32,10 @@ export class AuthService {
 
         this.collectionService.createEmptyCollection(user._id);
 
-        return { token };
+        return { token, user };
     }
 
-    async login(loginDto: LoginDto): Promise<{ token: string }> {
+    async login(loginDto: LoginDto): Promise<{ token: string, user: User }> {
         const { email, password } = loginDto;
 
         const user = await this.userModel.findOne({ email });
@@ -49,6 +49,6 @@ export class AuthService {
 
         const token = this.jswService.sign({ id: user._id });
 
-        return { token };
+        return { token, user };
     }
 }

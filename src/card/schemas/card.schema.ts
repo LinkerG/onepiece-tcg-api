@@ -6,6 +6,7 @@ export enum Rarity {
     RARE = 'R',
     SUPER_RARE = 'SR',
     LEADER = 'L',
+    SECRET = 'SEC',
 }
 
 export enum CardType {
