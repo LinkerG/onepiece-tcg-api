@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsOptional, IsString, ValidateIf } from 'class-validator';
 import {
     Rarity,
     CardType,
@@ -67,7 +67,7 @@ export class FindAllCardsQuery {
         },
     })
     @IsOptional()
-    @IsArray()
+    @ValidateIf(o => typeof o.attribute === 'string' || Array.isArray(o.attribute))
     @IsEnum(CardAttribute, { each: true })
     attribute?: CardAttribute[];
 
@@ -84,7 +84,7 @@ export class FindAllCardsQuery {
         },
     })
     @IsOptional()
-    @IsArray()
+    @ValidateIf(o => typeof o.color === 'string' || Array.isArray(o.color))
     @IsEnum(CardColor, { each: true })
     color?: CardColor[];
 
@@ -100,7 +100,7 @@ export class FindAllCardsQuery {
         },
     })
     @IsOptional()
-    @IsArray()
+    @ValidateIf(o => typeof o.card_type === 'string' || Array.isArray(o.card_type))
     @IsString({ each: true })
     card_type?: string[];
 }
