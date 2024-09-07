@@ -40,6 +40,14 @@ export class CardController {
         return this.cardService.find(query);
     }
 
+    @Get("collections")
+    @UseInterceptors(CacheInterceptor)
+    @Header('Cache-Control', 'public, max-age=300') // 5min
+    @ApiOperation({ description: 'Get cards collections' })
+    async getCollections(): Promise<string[]> {
+        return this.cardService.getCollections();
+    }
+
     @Get(':card_id')
     @UseInterceptors(CacheInterceptor)
     @Header('Cache-Control', 'public, max-age=300') // 5min

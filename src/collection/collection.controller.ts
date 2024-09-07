@@ -53,7 +53,7 @@ export class CollectionController {
             );
     }
 
-    @Put(':user_id/addCard')
+    @Put(':user_id/saveCard')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
     @ApiOperation({ description: `Sets the quantity value of a card in the specified user collection, if the card is not in the collection, it's added` })
@@ -65,7 +65,7 @@ export class CollectionController {
     ): Promise<Collection> {
         const user = req.user;
         if (user.role === Role.ADMIN || user._id.toString() === user_id)
-            return this.collectionService.addCardToUserCollection(user_id, card);
+            return this.collectionService.saveCardToUserCollection(user_id, card);
         else
             throw new UnauthorizedException(
                 'You can only access your own collection',

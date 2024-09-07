@@ -48,26 +48,36 @@ export class CollectionService {
         return collection;
     }
 
-    async addCardToUserCollection(userId: string, cardToAdd: UserHasCardDTO): Promise<Collection> {
+    async saveCardToUserCollection(userId: string, cardToAdd: UserHasCardDTO): Promise<Collection> {
         const collection = await this.collectionModel
             .findOne({ user_id: userId })
             .exec();
 
-        if (!collection)
-            throw new NotFoundException(
-                `No collection found for user ${userId}`,
+        if (!collection) {
+            throw new NotFoundException(`No collection found for user ${userId}`);
+        }
+
+        if (cardToAdd.quantity === 0) {
+            // Eliminar la carta de la colección si la cantidad es 0
+            collection.user_collection = collection.user_collection.filter(
+                (card) => card.card_id.toString() !== cardToAdd.card_id.toString(),
+            );
+        } else {
+            // Buscar si la carta ya está en la colección del usuario
+            const existingCard = collection.user_collection.find(
+                (card) => card.card_id.toString() === cardToAdd.card_id.toString(),
             );
 
-        // Buscar si la carta ya está en la colección del usuario
-        const existingCard = collection.user_collection.find(
-            (card) => card.card_id.toString() === cardToAdd.card_id.toString(),
-        );
-
-        if (existingCard) existingCard.quantity = cardToAdd.quantity;
-        else collection.user_collection.push(cardToAdd);
+            if (existingCard) {
+                existingCard.quantity = cardToAdd.quantity;
+            } else {
+                collection.user_collection.push(cardToAdd);
+            }
+        }
 
         await collection.save();
 
         return collection;
     }
+
 }

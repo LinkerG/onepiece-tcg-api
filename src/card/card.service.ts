@@ -40,13 +40,24 @@ export class CardService {
             query.card_type = { $in: filters.card_type };
         }
 
-        const cards = await this.cardModel.find(query);
+        // Encuentra las cartas con los filtros aplicados
+        const cards = await this.cardModel.find(query).sort({ card_id: 1 }).exec();
 
         if (!cards || cards.length === 0) {
             throw new NotFoundException('No cards found');
         }
 
-        return cards;
+        // Ordena las cartas alfabéticamente y luego numéricamente por card_id
+        return cards.sort((a, b) => {
+            const [prefixA, numA] = a.card_id.split('-');
+            const [prefixB, numB] = b.card_id.split('-');
+
+            if (prefixA === prefixB) {
+                return parseInt(numA, 10) - parseInt(numB, 10);
+            } else {
+                return prefixA.localeCompare(prefixB);
+            }
+        });
     }
 
     async findById(id: string): Promise<Card> {
@@ -55,6 +66,46 @@ export class CardService {
         if (!card)
             throw new NotFoundException(`Card with card_id ${id} not found.`);
         return card;
+    }
+
+    async getCollections(): Promise<string[]> {
+        const collections = await this.cardModel.aggregate([
+            {
+                $project: {
+                    collection: { $arrayElemAt: [{ $split: ["$card_id", "-"] }, 0] }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    collections: { $addToSet: "$collection" }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    collections: 1
+                }
+            },
+            {
+                $unwind: "$collections" // Descompone el array para aplicar la ordenación
+            },
+            {
+                $sort: { "collections": 1 } // Ordena alfabéticamente
+            },
+            {
+                $group: {
+                    _id: null,
+                    collections: { $push: "$collections" } // Vuelve a agrupar en un array
+                }
+            }
+        ]);
+
+        if (collections.length === 0) {
+            throw new NotFoundException('No collections found');
+        }
+
+        return collections[0].collections;
     }
 
     async addAlternateArt(card_id: string): Promise<Card> {
