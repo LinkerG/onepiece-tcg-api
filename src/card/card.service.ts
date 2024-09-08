@@ -7,6 +7,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model as MongooseModel } from 'mongoose';
 import { Card } from './schemas/card.schema';
 import { FindAllCardsQuery } from './dto/find-card.dto';
+import * as puppeteer from 'puppeteer';
+import { log } from 'console';
 
 @Injectable()
 export class CardService {
@@ -66,6 +68,35 @@ export class CardService {
         if (!card)
             throw new NotFoundException(`Card with card_id ${id} not found.`);
         return card;
+    }
+
+    async getPrice(card_id: string) {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        const url = card_id.startsWith('P') ?
+            `https://www.cardmarket.com/en/OnePiece/Products/Search?idExpansion=5230&searchString=${card_id}` :
+            `https://www.cardmarket.com/en/OnePiece/Products/Search?searchString=${card_id}`
+
+        // Navegar a la URL
+        await page.goto(url);
+
+        // Esperar que el contenido se cargue y obtener el HTML
+        const content = await page.content();
+        try {
+            const data = await page.evaluate(() => {
+                // Extraer datos del DOM directamente usando JS
+                return document.querySelector('.col-price')?.textContent;
+            });
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+
+        // Cerrar el navegador
+        await browser.close();
+
+        // Devolver los datos extraídos
+        throw NotFoundException;
     }
 
     async getCollections(): Promise<string[]> {

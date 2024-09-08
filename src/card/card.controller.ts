@@ -57,6 +57,15 @@ export class CardController {
         return this.cardService.findById(card_id);
     }
 
+    @Get(':card_id/price')
+    @UseInterceptors(CacheInterceptor)
+    @Header('Cache-Control', 'public, max-age=300') // 5min
+    @ApiParam({ name: 'card_id', description: 'ID of the card', type: String })
+    @ApiOperation({ description: 'Get price card by card_id' })
+    async getPrice(@Param('card_id') card_id: string) {
+        return this.cardService.getPrice(card_id);
+    }
+
     @Patch(':card_id/addAlteredArt')
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth()
