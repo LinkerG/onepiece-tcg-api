@@ -11,6 +11,7 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) TypeScript repository [Mongo](https://github.com/mongodb/mongo) database JWT authentication, and [Swagger](https://github.com/swagger-api/swagger-ui) ([NestJS Swagger](https://github.com/nestjs/swagger)) documentation.
+The cards in the production database are up to OP-07.
 
 ## Project setup
 
